@@ -1,5 +1,5 @@
 <mujoco model="ur3">
-  <compiler angle="radian" meshdir="./meshes/"/>
+  <compiler angle="radian" meshdir="../ur_description/meshes"/>
 
   <asset>
     <mesh name="base" file="base.stl"/>

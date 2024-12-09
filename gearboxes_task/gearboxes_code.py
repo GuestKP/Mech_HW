@@ -3,8 +3,8 @@ from lxml import etree
 import numpy as np
 
 file_path = "ur_description/UR3.xml"
-file_path_2 = file_path[:-4] + "_inertia.xml"
-file_path_3 = file_path[:-4] + "_armature.xml"
+file_path_2 = "gearboxes_task/UR3_inertia.xml"
+file_path_3 = "gearboxes_task/UR3_armature.xml"
 reflected_inertia = 382e-7
 
 
@@ -24,6 +24,7 @@ def read_file(path):
         return etree.fromstringlist(f.readlines())
 
 tree_inertia = read_file(file_path)
+tree_inertia.findall('.//compiler')[0].set('meshdir', '../ur_description/meshes')
 
 for body in tree_inertia.findall('.//body'):
     joints = body.findall('joint')
