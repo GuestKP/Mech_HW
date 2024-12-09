@@ -6,6 +6,8 @@ file_path = "ur_description/UR3.xml"
 file_path_2 = "gearboxes_task/UR3_inertia.xml"
 file_path_3 = "gearboxes_task/UR3_armature.xml"
 reflected_inertia = 382e-7
+gear_ratio = 101
+parser = etree.XMLParser(remove_blank_text=True)
 
 
 def str_to_arr(s):
@@ -22,31 +24,50 @@ def arr_to_str(arr):
 def read_file(path):
     with open(file_path, 'r') as f:
         return etree.fromstringlist(f.readlines())
+    
 
-tree_inertia = read_file(file_path)
-tree_inertia.findall('.//compiler')[0].set('meshdir', '../ur_description/meshes')
+def add_actuators_sensors(tree):
+    actuators = etree.SubElement(tree, 'actuator')
+    sensors = etree.SubElement(tree, 'sensor')
+    for joint in tree_inertia.findall('.//joint'):
+        name = joint.get('name')
+        etree.SubElement(actuators, 'position', attrib={
+            'name': 'j_'+name,
+            'joint': name,
+            'kp': f'{0.01}',
+            'dampratio': f'{1}',
+            'gear': f'{gear_ratio}',
+            'ctrlrange': arr_to_str([-np.pi*gear_ratio, np.pi*gear_ratio])
+        })
+        etree.SubElement(sensors, 'jointpos', attrib={
+            'name': 's_'+name,
+            'joint': name
+        })
+
+
+tree_inertia = etree.parse(file_path, parser).getroot()
+tree_inertia.find('.//compiler').set('meshdir', '../ur_description/meshes')
+add_actuators_sensors(tree_inertia)
 
 for body in tree_inertia.findall('.//body'):
-    joints = body.findall('joint')
-    inertials = body.findall('inertial')
-    if joints and inertials:
-        joint, inertial = joints[0], inertials[0]
+    joint = body.find('joint')
+    inertial = body.find('inertial')
+    if joint is not None and inertial is not None:
         joint_axis = str_to_arr(joint.get('axis'))
         inertial_inertia = str_to_arr(inertial.get('diaginertia'))
-        print(body.get('name'), joint_axis, inertial_inertia)
         inertial_inertia = inertial_inertia + joint_axis * reflected_inertia
         inertial.set('diaginertia', arr_to_str(inertial_inertia))
-        #print(body.get('name'), joint_axis, inertial_inertia)
 
 with open(file_path_2, 'w') as f:
     f.write(etree.tostring(tree_inertia, pretty_print=True).decode())
         
-tree_armature = read_file(file_path)
+tree_armature = etree.parse(file_path, parser).getroot()
+tree_armature.find('.//compiler').set('meshdir', '../ur_description/meshes')
+add_actuators_sensors(tree_armature)
 
 for body in tree_armature.findall('.//body'):
-    joints = body.findall('joint')
-    if joints:
-        joint = joints[0]
+    joint = body.find('joint')
+    if joint is not None:
         joint.set('armature', f'{reflected_inertia:.9f}')
 
 with open(file_path_3, 'w') as f:

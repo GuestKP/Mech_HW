@@ -1,6 +1,5 @@
 <mujoco model="ur3">
-  <compiler angle="radian" meshdir="./meshes/"/>
-
+  <compiler angle="radian" meshdir="../ur_description/meshes"/>
   <asset>
     <mesh name="base" file="base.stl"/>
     <mesh name="shoulder" file="shoulder.stl"/>
@@ -10,7 +9,6 @@
     <mesh name="wrist2" file="wrist2.stl"/>
     <mesh name="wrist3" file="wrist3.stl"/>
   </asset>
-
   <worldbody>
     <body name="base_link">
       <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="2" diaginertia="0.005625 0.00305317 0.00305317"/>
@@ -59,8 +57,23 @@
       <body name="base" quat="0 0 0 -1"/>
     </body>
   </worldbody>
-
   <contact>
     <exclude body1="base_link" body2="shoulder_link"/>
   </contact>
+  <actuator>
+    <position name="j_shoulder_pan_joint" joint="shoulder_pan_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
+    <position name="j_shoulder_lift_joint" joint="shoulder_lift_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
+    <position name="j_elbow_joint" joint="elbow_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
+    <position name="j_wrist_1_joint" joint="wrist_1_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
+    <position name="j_wrist_2_joint" joint="wrist_2_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
+    <position name="j_wrist_3_joint" joint="wrist_3_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
+  </actuator>
+  <sensor>
+    <jointpos name="s_shoulder_pan_joint" joint="shoulder_pan_joint"/>
+    <jointpos name="s_shoulder_lift_joint" joint="shoulder_lift_joint"/>
+    <jointpos name="s_elbow_joint" joint="elbow_joint"/>
+    <jointpos name="s_wrist_1_joint" joint="wrist_1_joint"/>
+    <jointpos name="s_wrist_2_joint" joint="wrist_2_joint"/>
+    <jointpos name="s_wrist_3_joint" joint="wrist_3_joint"/>
+  </sensor>
 </mujoco>
