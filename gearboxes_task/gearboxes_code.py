@@ -7,6 +7,7 @@ file_path_2 = "gearboxes_task/UR3_inertia.xml"
 file_path_3 = "gearboxes_task/UR3_armature.xml"
 reflected_inertia = 382e-7
 gear_ratio = 101
+allowable_torque = 30
 parser = etree.XMLParser(remove_blank_text=True)
 
 
@@ -29,7 +30,7 @@ def read_file(path):
 def add_actuators_sensors(tree):
     actuators = etree.SubElement(tree, 'actuator')
     sensors = etree.SubElement(tree, 'sensor')
-    for joint in tree_inertia.findall('.//joint'):
+    for joint in tree.findall('.//joint'):
         name = joint.get('name')
         etree.SubElement(actuators, 'position', attrib={
             'name': 'j_'+name,
@@ -37,7 +38,8 @@ def add_actuators_sensors(tree):
             'kp': f'{0.01}',
             'dampratio': f'{1}',
             'gear': f'{gear_ratio}',
-            'ctrlrange': arr_to_str([-np.pi*gear_ratio, np.pi*gear_ratio])
+            'ctrlrange': arr_to_str([-np.pi*gear_ratio, np.pi*gear_ratio]),
+            'forcerange': arr_to_str([-allowable_torque, allowable_torque])
         })
         etree.SubElement(sensors, 'jointpos', attrib={
             'name': 's_'+name,

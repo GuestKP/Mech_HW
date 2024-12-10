@@ -61,12 +61,12 @@
     <exclude body1="base_link" body2="shoulder_link"/>
   </contact>
   <actuator>
-    <position name="j_shoulder_pan_joint" joint="shoulder_pan_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
-    <position name="j_shoulder_lift_joint" joint="shoulder_lift_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
-    <position name="j_elbow_joint" joint="elbow_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
-    <position name="j_wrist_1_joint" joint="wrist_1_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
-    <position name="j_wrist_2_joint" joint="wrist_2_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
-    <position name="j_wrist_3_joint" joint="wrist_3_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013"/>
+    <position name="j_shoulder_pan_joint" joint="shoulder_pan_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013" forcerange="-30.000000000 30.000000000"/>
+    <position name="j_shoulder_lift_joint" joint="shoulder_lift_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013" forcerange="-30.000000000 30.000000000"/>
+    <position name="j_elbow_joint" joint="elbow_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013" forcerange="-30.000000000 30.000000000"/>
+    <position name="j_wrist_1_joint" joint="wrist_1_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013" forcerange="-30.000000000 30.000000000"/>
+    <position name="j_wrist_2_joint" joint="wrist_2_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013" forcerange="-30.000000000 30.000000000"/>
+    <position name="j_wrist_3_joint" joint="wrist_3_joint" kp="0.01" dampratio="1" gear="101" ctrlrange="-317.300858013 317.300858013" forcerange="-30.000000000 30.000000000"/>
   </actuator>
   <sensor>
     <jointpos name="s_shoulder_pan_joint" joint="shoulder_pan_joint"/>
